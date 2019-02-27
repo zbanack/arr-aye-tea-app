@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Arr Aye Tea</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="vendor/style.css">
+        <link href="vendor/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <script src="json/menu.js"></script>
+        <script src="vendor/jquery.min.js"></script>
+        <script src="vendor/bootstrap.bundle.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Leckerli+One" rel="stylesheet">
+
+        <script>
+        let recent_item = [];
+        let cart_items = [];
+        let cards = [];
+        </script>
+    </head>
+    <body>
+        <div class="d-flex" id="wrapper">
+
+            <!-- Sidebar -->
+            <div class="bg-light border-right" id="sidebar-wrapper">
+                <div class="list-group list-group-flush">
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel1')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #1</a>
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel2')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #2</a>
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel3')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #3</a>
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel4')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #4</a>
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel5')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #5</a>
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel6')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #6</a>
+                </div>
+            </div>
+
+            <div id="outermost">
+
+                <div id="page-content-wrapper">
+
+                    <!-- Header -->
+                    <nav class="navbar navbar-light nav-aat">
+                        <div class="brand">Arr Aye Tea</div>
+                        <button class="navbar-toggler menu-toggle" style="border:none!important;"><i class="fas fa-bars" style="color:white!important;"></i></button>
+                    </nav>
+
+
+                    <!-- Page: Home -->
+                    <div class="container-fluid">
+                        <div id="page-home" class="tabcontent defhide">
+                            <h1 class="mt-4">News</h1>
+                            <hr/>
+                            <div id="news-stories">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page: Products -->
+                    <div class="container-fluid">
+                        <div id="page-shop" class="tabcontent">
+                            <h1 class="mt-4">Specialty Brews</h1>
+                            <hr/>
+                            <div id="menu-listing">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page: Cards -->
+                    <div class="container-fluid">
+                        <div id="page-cards" class="tabcontent defhide">
+                            <h1 class="mt-4">Cards</h1>
+                            <hr />
+
+                       <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-add-card', 'ico-home')">Add a Card</a>
+                       <div id="my-cards"></div>
+                        </div>
+                    </div>
+
+                    <!-- Page: Cart -->
+                    <div class="container-fluid">
+                        <div id="page-cart" class="tabcontent defhide">
+                            <h1 class="mt-4">Cart</h1>
+                            <div id="my-items"></div>
+                        </div>
+                    </div>
+
+                    <!-- Page: Add a Cart -->
+                    <div class="container-fluid">
+                        <div id="page-add-card" class="tabcontent defhide">
+                            <h1 class="mt-4">Add a Card</h1>
+                                <input type="text" name="card-bal" placeholder="Balance"><br/>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <div id="card-selection"></div>
+                                </div>
+                                <br/>
+                                <a href="javascript:void(0);" class="tablinks" onclick="create_card(); openPage(event, 'page-cards', 'ico-cards'); render_cards();">Create Card</a>
+                        </div>
+                    </div>
+
+                    <!-- Side panels -->
+
+                    <!-- Page: Panel #1 -->
+                    <div class="container-fluid">
+                        <div id="page-panel1" class="tabcontent defhide">
+                            <h1 class="mt-4">Panel 1</h1>
+                        </div>
+                    </div>
+
+                    <!-- Page: Panel #2 -->
+                    <div class="container-fluid">
+                        <div id="page-panel2" class="tabcontent defhide">
+                            <h1 class="mt-4">Panel 2</h1>
+                        </div>
+                    </div>
+
+                    <!-- Page: Panel #3 -->
+                    <div class="container-fluid">
+                        <div id="page-panel3" class="tabcontent defhide">
+                            <h1 class="mt-4">Panel 3</h1>
+                        </div>
+                    </div>
+
+                    <!-- Page: Panel #4 -->
+                    <div class="container-fluid">
+                        <div id="page-panel4" class="tabcontent defhide">
+                            <h1 class="mt-4">Panel 4</h1>
+                        </div>
+                    </div>
+
+                    <!-- Page: Panel #5 -->
+                    <div class="container-fluid">
+                        <div id="page-panel5" class="tabcontent defhide">
+                            <h1 class="mt-4">Panel 5</h1>
+                        </div>
+                    </div>
+
+                    <!-- Page: Panel #6 -->
+                    <div class="container-fluid">
+                        <div id="page-panel6" class="tabcontent defhide">
+                            <h1 class="mt-4">Panel 6</h1>
+                        </div>
+                    </div>
+
+                    <!-- Page: Viewing Card -->
+                    <div class="container-fluid">
+                        <div id="page-view-card" class="tabcontent defhide">
+                            <h1 class="mt-4">My Card</h1>
+                            <div id="card-view"></div>
+                            <div id="qr-code"></div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="nav" style="z-index:999;">
+                        <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-home', 'ico-home')"><i id="ico-home" class="navbutton fas fa-home"></i></a>
+                        <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-shop', 'ico-shop')"><i id="ico-shop" class="navbutton fas fa-coffee"></i></a>
+                        <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-cards', 'ico-cards')"><i id="ico-cards" class="navbutton fas fa-credit-card"></i></a>
+                        <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-cart', 'ico-cart')"><i id="ico-cart" class="navbutton fas fa-shopping-cart"></i><span class="badge badge-light cart-count"></span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success -->
+            <div class="alert alert-success" id="success-alert">
+                <strong>Success! </strong>
+                Product have added to your wishlist.
+            </div>
+        </div>
+    </body>
+    <script src="vendor/app.js"></script>
+</html>

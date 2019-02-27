@@ -1,0 +1,278 @@
+:root {
+  --app-max-width: 640px;
+}
+
+.nav {
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  width:100%;
+  max-width:var(--app-max-width);
+  text-align:center;
+}
+
+.nav a {
+  float: left;
+  display: block;
+  color: #fff !important; 
+  text-align: center;
+  padding:0px;
+  background-color: #333 !important; 
+  height:60px;
+  line-height:60px;
+  text-decoration: none;
+  font-size: 20px;
+  width:25%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+  min-height: 100vh;
+  margin-left: -20rem;
+  -webkit-transition: margin .2s ease-out;
+  -moz-transition: margin .2s ease-out;
+  -o-transition: margin .2s ease-out;
+  transition: margin .2s ease-out;
+
+  z-index:9998;
+  position: fixed !important;
+  top:0 !important;
+  padding-top:60px;
+
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+  width: 15rem;
+}
+
+.tabcontent {
+  padding-top:60px;
+  padding-bottom:60px;
+}
+
+#page-content-wrapper {
+  min-width: calc(100% - 20px);
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: 0;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.card {
+  margin-bottom:20px;
+  box-shadow:0px 2px 8px rgba(0, 0, 0, 0.075);
+}
+
+.add-to-cart {
+  padding:12px !important;
+  font-size:12px !important;
+  margin-left:8px !important;
+}
+
+.hollow {
+  background-color: white !important;
+  width:64px !important;
+  color: black !important;
+}
+
+.active {
+  background-color:rgba(0, 0, 0, 0.25) !important;
+}
+
+.card-add {
+  text-align:right;
+  padding-top:8px;
+}
+
+.navbar {
+  z-index:99999;
+  width:100%;
+  max-width:var(--app-max-width);
+  position: fixed !important;
+  top:0 !important;
+  height:60px !important;
+}
+
+.nav-aat {
+  background-color:#F39C12 !important;
+  box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.05);
+  border-bottom:4px solid #F1C40F;
+}
+
+.brand {
+    position: absolute;
+    font-family: 'Leckerli One', cursive;
+    left: 50%;
+    margin-left: -70px !important;
+    display: block;
+    font-size:28px;
+    text-align:center;
+    color: white;
+    text-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.aat-card-sm {
+  width: 168px;
+  height: 106px;
+
+  border-radius:8px;
+}
+
+.aat-card, .aat-card-sm {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin:8px;
+}
+
+#card-selection > .active {
+  opacity:0.75;
+}
+
+[type='radio'] {
+  outline:none;
+  display: none; 
+}
+
+.aat-card {
+  width: 337px;
+  height: 212px;
+
+  border-radius:16px;
+}
+
+#outermost {
+  max-width:var(--app-max-width);
+  display: inline-block;
+}
+
+.d-flex {
+    width: 100%;
+
+    /* Firefox */
+    display: -moz-box;
+    -moz-box-pack: center;
+    -moz-box-align: center;
+
+    /* Safari and Chrome */
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+
+    /* W3C */
+    display: box;
+    box-pack: center;
+    box-align: center;
+}
+
+#success-alert {
+  top:0;
+  position:fixed;
+  width:var(--app-max-width);
+}
+
+.cart-count {
+  font-size:14px !important;
+  line-height:20px !important;
+  border-radius: 20px !important;
+  width:20px !important;
+  height:20px !important;
+  padding:0px !important;
+  margin-left:-7px !important;
+  background-color: green !important;
+  color: white !important;
+  display: inline-block !important;
+  opacity: 0;
+}
+
+.defhide {
+  display: none;
+}
+
+.img-circle {
+  width:75px;
+  height:75px;
+  background-color:red;
+  border-radius:50px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display:inline-block;
+}
+
+.news-author {
+  font-style: italic;
+  margin-top:-8px;
+}
+
+.news-body {
+  padding-top:128px !important;
+}
+
+
+.news-title {
+ color:#ffffff !important;
+ font-size:64px !important;
+ }
+
+#news-stories {
+  color:#fff !important;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+#news-stories .card-text {
+  font-size: 15px;
+}
+
+.read-more {
+  padding:12px !important;
+  width:128px;
+}
+
+#news-stories .card {
+  border-radius: 2px;
+}
+
+#subtotal {
+  text-align: right;
+}
+
+.cart-item {
+  width:100%;
+}
+
+#qr-table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+}
+
+td, th {
+  text-align: left;
+}
+
+.qrb {
+  background-color:black;
+  width:8px;
+  height:8px;
+}
+.qrw {
+  background-color:white;
+}
