@@ -24,8 +24,8 @@
             <!-- Sidebar -->
             <div class="bg-light border-right" id="sidebar-wrapper">
                 <div class="list-group list-group-flush">
-                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel1')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #1</a>
-                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel2')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #2</a>
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel1')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">AAT Go</a>
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel2')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Order History</a>
                     <a href="javascript:void(0);" onclick="openPage(event, 'page-panel3')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #3</a>
                     <a href="javascript:void(0);" onclick="openPage(event, 'page-panel4')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #4</a>
                     <a href="javascript:void(0);" onclick="openPage(event, 'page-panel5')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #5</a>
@@ -101,14 +101,16 @@
                     <!-- Page: Panel #1 -->
                     <div class="container-fluid">
                         <div id="page-panel1" class="tabcontent defhide">
-                            <h1 class="mt-4">Panel 1</h1>
+                            <h1 class="mt-4">Arr Aye Tea Go</h1>
+                            <p>Scan this barcode</p>
                         </div>
                     </div>
 
                     <!-- Page: Panel #2 -->
                     <div class="container-fluid">
                         <div id="page-panel2" class="tabcontent defhide">
-                            <h1 class="mt-4">Panel 2</h1>
+                            <h1 class="mt-4">Order History</h1>
+                            <div id="order-history"></div>
                         </div>
                     </div>
 
@@ -146,6 +148,14 @@
                             <h1 class="mt-4">My Card</h1>
                             <div id="card-view"></div>
                             <div id="qr-code"></div>
+                        </div>
+                    </div>
+
+                    <!-- Thank You! -->
+                    <div class="container-fluid">
+                        <div id="page-thankyou" class="tabcontent defhide">
+                            <h1 class="mt-4">Thank you for your purchase!</h1>
+                        <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-cart', -1)"></i>Done</a>
                         </div>
                     </div>
 

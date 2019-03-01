@@ -276,3 +276,7 @@ td, th {
 .qrw {
   background-color:white;
 }
+
+#qr-code {
+  text-align:center;
+}

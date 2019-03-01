@@ -40,13 +40,15 @@ function render_cart_items() {
 
         sum += temp_sum;
 
-        div =
-            `<div class="cart-item"> <button onclick="cart_item_manip(-1,${_i},${_j});">-</button><button onclick="cart_item_manip(1,${_i},${_j});">+</button><div class="img-circle" style="background-image: url('${MENU_ITEMS[_i].image}')"></div>${MENU_ITEMS[_i].name} ${MENU_ITEMS[_i].tabs[_j]} x${_q} @ ${USD(MENU_ITEMS[_i].prices[_j])} = ${USD(temp_sum)}<hr /></div>`;
+        div = `<div class="cart-item"> <button onclick="cart_item_manip(-1,${_i},${_j});">-</button><button onclick="cart_item_manip(1,${_i},${_j});">+</button><div class="img-circle" style="background-image: url('${MENU_ITEMS[_i].image}')"></div>${MENU_ITEMS[_i].name} ${MENU_ITEMS[_i].tabs[_j]} x${_q} @ ${USD(MENU_ITEMS[_i].prices[_j])} = ${USD(temp_sum)}<hr /></div>`;
         $('#my-items').append(div);
     }
 
     if (!empty) {
-        div = `<div id="subtotal">Subtotal: ${USD(sum)}<br />TAX (${USD(TAX * 100)}%): ${USD(TAX * sum)}<hr />Total: ${USD((TAX * sum) + sum)}</div>`;
+        let total_price = (USD((TAX * sum) + sum)).toString();
+        div = `<div id="subtotal">Subtotal: ${USD(sum)}<br />Tax (${(TAX * 100)}%): ${USD(TAX * sum)}<hr />Total: ${total_price}</div>`;
+
+        div+=`<a href="javascript:void(0);" onclick="checkout('${total_price}');">Checkout</a>`;
         $('#my-items').append(div);
     } else {
         div = 'Cart empty!';
@@ -88,6 +90,7 @@ $(".menu-toggle").click(function(e) {
     $("#wrapper").toggleClass("toggled");
 });
 
+
 function openPage(evt, cityName, btnName) {
     btnName = btnName || undefined;
 
@@ -112,6 +115,11 @@ function menu_get_price(_val, _class) {
     return MENU_ITEMS[_class].prices[_val];
 }
 
+function cart_empty() {
+  cart_items = [];
+  cart_has_updated();
+}
+
 // listen for toggle
 $(document).on('change', 'input:radio[name="options"]', function(event) {
     let cls = '.' + this.className;
@@ -130,6 +138,7 @@ function add_to_cart(btn) {
                 break;
             }
         }
+
 
     }
 
@@ -172,6 +181,7 @@ function init_popul() {
 
   <div class="card-add">
       <div class="btn-group btn-group-toggle" data-toggle="buttons">`
+
 
         for (let j = 0; j < MENU_ITEMS[i].tabs.length; j++) {
             div += `
@@ -227,9 +237,9 @@ function init_popul() {
 
     let div = '';
     // card selection
-    for (let i = 0; i < CARD_STYLES.length; i++) {
-        if (CARD_STYLES[i].available !== true) continue;
-        div += `<label class="aat-card-sm card-style-selection btn btn-secondary${i === 0 ? ' active' : ''}" style="background-image:url('${card_get_image(i.toString())}') !important;">
+    for(let i = 0; i < CARD_STYLES.length; i++) {
+      if (CARD_STYLES[i].available !== true) continue;
+      div+=`<label class="aat-card-sm card-style-selection btn btn-secondary${i === 0 ? ' active' : ''}" style="background-image:url('${card_get_image(i.toString())}') !important;">
           <input class="card-radio-selection" type="radio" name="card-style-radio" autocomplete="off" value="${i}">
         </label>`;
     }
@@ -243,8 +253,7 @@ function render_card_view(i) {
     $('#card-view').append(div);
     div = `<p>${USD(CARDS[i].balance)}<br/>${CARDS[i].number}</p>`;
     $('#card-view').append(div);
-    alert(card_to_int(CARDS[i].number));
-    gen_qr();
+    gen_qr(i);
 }
 
 function render_card(img) {
@@ -253,45 +262,45 @@ function render_card(img) {
 }
 
 function render_cards() {
-    $('#my-cards').empty();
+  $('#my-cards').empty();
     for (let i = 0; i < CARDS.length; i++) {
-        let div = render_card(CARDS[i].style);
-        let div_pre = `<a href="javascript:void(0);" class="tablinks" onclick="render_card_view(${i}); openPage(event, 'page-view-card', -1)">`;
-        let div_post = `</a>`;
+      let div = render_card(CARDS[i].style);
+      let div_pre = `<a href="javascript:void(0);" class="tablinks" onclick="render_card_view(${i}); openPage(event, 'page-view-card', -1)">`;
+      let div_post = `</a>`;
 
-        $('#my-cards').append(div_pre + div + div_post);
+      $('#my-cards').append(div_pre + div + div_post);
     }
 }
 
 function card_get_image(_sty) {
-    let ret = '';
-    for (let i = 0; i < CARD_STYLES.length; i++) {
-        if (CARD_STYLES[i].id === _sty) {
-            ret = CARD_STYLES[i].image;
-            break;
-        }
+  let ret = '';
+  for(let i = 0; i < CARD_STYLES.length; i++) {
+    if (CARD_STYLES[i].id === _sty) {
+      ret = CARD_STYLES[i].image;
+      break;
     }
-    return ret;
+  }
+  return ret;
 }
 
 function create_card() {
-    let id = '';
-    let balance = $('input[name=card-bal]').val();
-    let style = $('input[name=card-style-radio]:checked').val();
+  let id = '';
+  let balance = $('input[name=card-bal]').val();
+  let style = $('input[name=card-style-radio]:checked').val();
 
-    CARDS.push({
-        "id": id,
-        "number": generate_card_number(),
-        "balance": balance,
-        "style": style
-    });
+  CARDS.push({
+    "id": id,
+    "number": generate_card_number(),
+    "balance": balance,
+    "style": style
+  });
 
-    console.log(CARDS);
+  console.log(CARDS);
 }
 
 function pad_number(numb) {
     let str = numb.toString();
-    while (str.length < 4) {
+    while(str.length < 4) {
         str = '0' + str;
     }
     return str;
@@ -301,41 +310,68 @@ function card_to_int(numb) {
     let res = numb.replace(/\D/g, "");
     let ret = '';
 
-    for (let i = 0; i < 10; i++) {
-        ret += res.toString();
+    for(let i = 0; i < 10; i++) {
+        ret+=(Math.round(res*(i/4))).toString();
     }
     return ret;
 }
 
 function generate_card_number() {
     let numb = 0;
-    for (let i = 0; i < 4; i++) {
+    for(let i = 0; i < 4; i++) {
         numb += pad_number(Math.floor(Math.random() * 9999) + 0);
-        if (i < 3) numb += ' ';
+        if (i < 3) numb+=' ';
     }
     return numb;
 }
 
-function gen_qr() {
+function gen_qr(id) {
     // TODO, use card_to_int substring instead of > 0.5 to generate QR code
-    $('#qr-code').empty();
-    let qr_cols = 8;
-    let qr_rows = 16;
-    let div = `<table id="qr-table">`;
-    for (let i = 0; i < qr_cols; i++) {
-        div += `<tr>`;
-        for (let j = 0; j < qr_rows; j++) {
-            let ch = (Math.random(1) > 0.5 || j == qr_rows - 2) ? 'qrb' : 'qrw';
-            div += `<th class="${ch}"></th>`;
-        }
-        div += `</tr>`;
-    }
-    div += `</table>`;
-    $('#qr-code').append(div);
-} // This is just a sample script. Paste your real code (javascript or HTML) here.
+  let str = card_to_int(CARDS[id].number);
+  $('#qr-code').empty();
+  let qr_cols = 8;
+  let qr_rows = 16;
+  let div = `<table id="qr-table">`;
+  let cnt = 0;
+  for(let i = 0; i < qr_cols; i++) {
+      div+=`<tr>`;
+      for(let j = 0; j < qr_rows; j++) {
+          let ch = ((Number(str.substring(cnt, cnt+1))/10 > 0.5) || j == qr_rows - 2) ? 'qrb' : 'qrw';
+          div+=`<th class="${ch}"></th>`;
+          cnt++;
+      }
+      div+=`</tr>`;
+  }
+  div+=`</table>`;
+  $('#qr-code').append(div);
+}
 
-if ('this_is' == /an_example/) {
-    of_beautifier();
-} else {
-    var a = b ? (c % d) : e[f];
+function checkout(price) {
+  ORDER_HISTORY.push({
+    total: price,
+    date: make_date()
+  });
+
+  console.log(ORDER_HISTORY);
+
+  update_order_history();
+  openPage(event, 'page-thankyou', -1);
+  cart_empty();
+}
+
+function update_order_history() {
+  $('#order-history').empty();
+
+  for(let i = 0; i < ORDER_HISTORY.length; i++) {
+    let div = `<p>Date: ${ORDER_HISTORY[i].date}</p><p>Total Price: ${ORDER_HISTORY[i].total}</p><hr/>`;
+    $('#order-history').append(div);
+  }
+}
+
+function make_date() {
+  let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  let today  = new Date();
+
+  return today.toLocaleDateString("en-US", options); // Saturday, September 17, 2016
+
 }

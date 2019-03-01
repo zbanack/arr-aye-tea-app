@@ -53,6 +53,8 @@ const CARD_STYLES = [{
 	"image": "https://images.pexels.com/photos/1155577/pexels-photo-1155577.jpeg?cs=srgb&dl=daylight-environment-flow-1155577.jpg&fm=jpg"
 },];
 
+let ORDER_HISTORY = [];
+
 let CARDS = [];
 
 const TAX = 0.08;
