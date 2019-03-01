@@ -11,6 +11,7 @@ Features:
 - Mobile UI (HUD, hamburger menu slider, navigation)
 - Card system and ability to add new cards
 - Checkout and add/removal quantity system
+- Order history
 - Basic QR code generation for cards
 
 ![Item selection screen](https://github.com/zbanack/arr-aye-tea-app/blob/master/promo/promo_1.png?raw=true)
