@@ -13,6 +13,9 @@ Features:
 - Checkout and add/removal quantity system
 - Order history
 - Basic QR code generation for cards
+- Fake login/logout system
+- Loading popup
+- Failure and success alerts
 
 ![Item selection screen](https://github.com/zbanack/arr-aye-tea-app/blob/master/promo/promo_1.png?raw=true)
 ![News screen with side panel toggled](https://github.com/zbanack/arr-aye-tea-app/blob/master/promo/promo_2.png?raw=true)
