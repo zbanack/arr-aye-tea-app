@@ -40,7 +40,7 @@ function render_cart_items() {
 
         sum += temp_sum;
 
-        div = `<div class="cart-item"> <button onclick="cart_item_manip(-1,${_i},${_j});">-</button><button onclick="cart_item_manip(1,${_i},${_j});">+</button><div class="img-circle" style="background-image: url('${MENU_ITEMS[_i].image}')"></div>${MENU_ITEMS[_i].name} ${MENU_ITEMS[_i].tabs[_j]} x${_q} @ ${USD(MENU_ITEMS[_i].prices[_j])} = ${USD(temp_sum)}<hr /></div>`;
+        div = `<div class="cart-item"> <button onclick="loading_show(1000, cart_item_manip, -1,${_i},${_j});">-</button><button onclick="loading_show(1000, cart_item_manip, 1,${_i},${_j});">+</button><div class="img-circle" style="background-image: url('${MENU_ITEMS[_i].image}')"></div>${MENU_ITEMS[_i].name} ${MENU_ITEMS[_i].tabs[_j]} x${_q} @ ${USD(MENU_ITEMS[_i].prices[_j])} = ${USD(temp_sum)}<hr /></div>`;
         $('#my-items').append(div);
     }
 
@@ -48,7 +48,7 @@ function render_cart_items() {
         let total_price = (USD((TAX * sum) + sum)).toString();
         div = `<div id="subtotal">Subtotal: ${USD(sum)}<br />Tax (${(TAX * 100)}%): ${USD(TAX * sum)}<hr />Total: ${total_price}</div>`;
 
-        div+=`<a href="javascript:void(0);" onclick="checkout('${total_price}');">Checkout</a>`;
+        div+=`<a href="javascript:void(0);" onclick="loading_show(2000, checkout, '${total_price}');">Checkout</a>`;
         $('#my-items').append(div);
     } else {
         div = 'Cart empty!';
@@ -94,6 +94,7 @@ $(".menu-toggle").click(function(e) {
 function openPage(evt, cityName, btnName) {
     btnName = btnName || undefined;
 
+    let currentTarget = undefined;
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -104,7 +105,7 @@ function openPage(evt, cityName, btnName) {
         tablinks[i].className = tablinks[i].className.replace(/ active/g, "");
     }
     document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
+    if (currentTarget!==undefined) evt.currentTarget.className += " active";
 
     $('.navbutton').css('opacity', '1').css('transform', 'translateY(0px)');
     if (btnName !== undefined) $('#' + btnName).css('opacity', '1').css('transform', 'translateY(-5px)');
@@ -127,7 +128,6 @@ $(document).on('change', 'input:radio[name="options"]', function(event) {
 });
 
 function add_to_cart(btn) {
-    console.log('here');
     let ID = btn.className.replace(/\D/g, "");
     let num = 0;
     let slides = document.getElementsByClassName("MID" + ID);
@@ -158,18 +158,38 @@ function add_to_cart(btn) {
     cart_has_updated();
 }
 
-$(document).ready(function() {
+function alert_success(_title, _content) {
+  let div = `<strong>${_title}</strong>&nbsp;${_content}`;
+  $("#success-alert").empty();
+  $("#success-alert").append(div);
+  $("#success-alert").stop(true, true);
+  $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+      $("#success-alert").slideUp(500);
+  });
+}
+
+function alert_failure(_title, _content) {
+  let div = `<strong>${_title}</strong>&nbsp;${_content}`;
+  $("#failure-alert").empty();
+  $("#failure-alert").append(div);
+  $("#failure-alert").stop(true, true);
+  $("#failure-alert").fadeTo(2000, 500).slideUp(500, function() {
+      $("#failure-alert").slideUp(500);
+  });
+}
+
+function app_has_loaded() {
+  $('#landing').fadeOut();
     cart_has_updated();
     init_popul();
     $("#success-alert").hide();
     $(".add-to-cart").click(function showAlert() {
-        add_to_cart(this);
-        $("#success-alert").stop(true, true);
-        $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
-            $("#success-alert").slideUp(500);
-        });
+        loading_show(500, add_to_cart, this);
+        alert_success('Yum!', 'Item addded to cart');
     });
-});
+
+    loading_hide();
+}
 
 function init_popul() {
     for (let i = 0; i < MENU_ITEMS.length; i++) {
@@ -374,4 +394,66 @@ function make_date() {
 
   return today.toLocaleDateString("en-US", options); // Saturday, September 17, 2016
 
+}
+
+function loading_show(duration, cbfnc, cbp1, cbp2, cbp3, cbp4, cbp5) {
+    duration = duration || -1;
+    cbfnc = cbfnc || undefined;
+    cbp1 = cbp1 || 0;
+    cbp2 = cbp2 || 0;
+    cbp3 = cbp3 || 0;
+    cbp4 = cbp4 || 0;
+    cbp5 = cbp5 || 0;
+    $('#loader').empty();
+    $('#loader').fadeIn();
+    let div = `<div class="spinner_wrapper">
+    <div class="spinner_container">
+    <div class="spinner"><i class="fas fa-leaf"></i></div>
+    </div>
+    </div>`;
+    $('#loader').append(div);
+    if (duration>0) setTimeout(loading_hide, duration);
+    if (cbfnc!==undefined) {
+      setTimeout(function() {
+        console.log(cbp1, cbp2, cbp3, cbp4, cbp5);
+        cbfnc(cbp1, cbp2, cbp3, cbp4, cbp5);
+    }, duration)
+  }
+}
+
+function loading_hide() {
+  $('#loader').fadeOut();
+}
+
+function login_successful() {
+    loading_show(-1);
+    openPage(event, 'page-shop', 'ico-shop');
+    let URL = "https://banack.me/AAT/api.php";
+    $.ajax({
+        url: URL,
+        type: 'GET',
+        success: function (resp) {
+            $("body").append(resp);
+            app_has_loaded();
+        },
+        error: function(e) {
+            console.log('Error:', e);
+        }  
+    });
+}
+
+function login() {
+    let username = $('#inputEmail').val();
+    let password = $('#inputPassword').val();
+
+    if (username === 'admin' && password === '123') {
+        login_successful();
+    }
+    else {
+      alert_failure('Whoops!', 'Invalid username and password');
+    }
+}
+
+function logout() {
+  location.reload();
 }

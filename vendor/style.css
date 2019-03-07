@@ -84,17 +84,23 @@ body {
 .add-to-cart {
   padding:12px !important;
   font-size:12px !important;
-  margin-left:8px !important;
+  margin-left:30px !important;
+  margin-top:8px !important;
+  width:150px !important;
 }
 
 .hollow {
   background-color: white !important;
-  width:64px !important;
+  width:48px !important;
+  height:40px !important;
+  font-size:10px !important;
+  line-height:40px !important;
+  padding:0px !important;
   color: black !important;
 }
 
 .active {
-  background-color:rgba(0, 0, 0, 0.25) !important;
+  background-color:rgba(0, 0, 0, 0.1) !important;
 }
 
 .card-add {
@@ -114,18 +120,17 @@ body {
 .nav-aat {
   background-color:#F39C12 !important;
   box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.05);
-  border-bottom:4px solid #F1C40F;
+  border-bottom:2px solid #F1C40F;
 }
 
 .brand {
     position: absolute;
     font-family: 'Leckerli One', cursive;
     left: 50%;
-    margin-left: -70px !important;
+    margin-left: -14px !important;
     display: block;
     font-size:28px;
     text-align:center;
-    color: white;
     text-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -183,10 +188,20 @@ body {
     box-align: center;
 }
 
-#success-alert {
+#success-alert, #failure-alert {
   top:0;
   position:fixed;
   width:var(--app-max-width);
+}
+
+#failure-alert {
+  background-color:#E74C3C;
+  color:white;
+}
+
+.alert {
+  z-index:999999;
+  border-radius:0px!important;
 }
 
 .cart-count {
@@ -279,4 +294,151 @@ td, th {
 
 #qr-code {
   text-align:center;
+}
+
+#landing {
+    opacity:1;
+    background-color:white;
+    position:fixed;
+    width:100%;
+    max-width:var(--app-max-width);
+    height:100vh;
+    top:0px;
+    left:0px;
+    z-index:99999;
+}
+
+.spinner_wrapper {
+  position:fixed;
+  width:100%;
+  max-width:var(--app-max-width);
+  height:100vh;
+  top:0px;
+  left:0px;
+  z-index:999999;
+}
+
+.spinner_container {
+  text-align:center;
+  width:150px;
+  height:150px;
+  border-radius:16px;
+  background-color:white;
+
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: -75px;
+  box-shadow:0px 2px 32px rgba(0, 0, 0, 0.1);
+}
+
+.spinner {
+    text-align:center;
+    opacity:0.75;
+    line-height:150px;
+    font-size:60px;
+    color:black;
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 2000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 2000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 2000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+.center-div {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 300px;
+  height: 450px;
+  text-align:center;
+}
+
+.tora {
+  color:#F39C12 !important;
+}
+
+.bora {
+  background-color:#F39C12 !important;
+  border:0px !important;
+}
+
+#landing-logo {
+  font-size:48px;
+  padding:16px;
+  padding-bottom:50px;
+  color:#F39C12;
+}
+
+.no-top-curve {
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
+.no-bottom-curve {
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+
+.wide-button {
+  width:100% !important;
+  opacity:0.9;
+}
+
+.forgot-password {
+  opacity:0.6;
+  color:black;
+  font-size:12px;
+}
+
+.footer-div {
+  position: absolute;
+  margin: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  line-height:40px;
+  text-align:center;
+  background-color:#126cf2;
+  color:white;
 }

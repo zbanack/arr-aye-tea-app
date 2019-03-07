@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href="vendor/style.css">
         <link href="vendor/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <script src="json/menu.js"></script>
+        <!--<script src="json/menu.js"></script>-->
         <script src="vendor/jquery.min.js"></script>
         <script src="vendor/bootstrap.bundle.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Leckerli+One" rel="stylesheet">
@@ -30,6 +30,7 @@
                     <a href="javascript:void(0);" onclick="openPage(event, 'page-panel4')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #4</a>
                     <a href="javascript:void(0);" onclick="openPage(event, 'page-panel5')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #5</a>
                     <a href="javascript:void(0);" onclick="openPage(event, 'page-panel6')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #6</a>
+                    <a href="javascript:void(0);" onclick="loading_show(1000, logout);" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Sign Out</a>
                 </div>
             </div>
 
@@ -39,7 +40,7 @@
 
                     <!-- Header -->
                     <nav class="navbar navbar-light nav-aat">
-                        <div class="brand">Arr Aye Tea</div>
+                        <div class="brand" style="color:white;"><i class="fas fa-leaf"></i></div>
                         <button class="navbar-toggler menu-toggle" style="border:none!important;"><i class="fas fa-bars" style="color:white!important;"></i></button>
                     </nav>
 
@@ -95,7 +96,7 @@
                                 <a href="javascript:void(0);" class="tablinks" onclick="create_card(); openPage(event, 'page-cards', 'ico-cards'); render_cards();">Create Card</a>
                         </div>
                     </div>
-
+                    
                     <!-- Side panels -->
 
                     <!-- Page: Panel #1 -->
@@ -168,13 +169,61 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="landing">
 
+            <!-- Login -->
+            <div class="container-fluid">
+                <div id="page-login" class="tabcontent">
+                
+                <div class="center-div">
+                    <div id="landing-logo"><i class="fas fa-leaf"></i></div>
+                  <input type="email" class="form-control no-bottom-curve" id="inputEmail" placeholder="Username" value="admin">
+                  <input type="password" class="form-control no-top-curve" id="inputPassword" placeholder="Password" style="margin-top:-1px !important;" value="123">
+                          
+                          <br />
+                  <a href="javascript:void(0);" class="btn btn-primary mb-2 bora wide-button" onclick="login();">Log In</a>
+                  <br /><br /><br />
+                  <a href="javascript:void(0);" class="tablinks forgot-password" onclick="openPage(event, 'page-forgot', '-1')">Forgot password?</a>
+              </div>
+                <div class="footer-div"><a href="javascript:void(0);" onclick="openPage(event, 'page-create-account', '-1');" style="color:white!important;">Create Account</a></div>
+              </div>
+          </div>
+
+          <!-- Forgot Password -->
+            <div class="container-fluid">
+                <div id="page-forgot" class="tabcontent defhide">
+                <h2>Forgot Password</h2>
+                <div class="center-div">
+                  <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-login', '-1')">Back</a>
+              </div>
+              </div>
+          </div>
+
+          <!-- Create Account -->
+            <div class="container-fluid">
+                <div id="page-create-account" class="tabcontent defhide">
+                <h2>Create Account</h2>
+                <div class="center-div">
+                  <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-login', '-1')">Back</a>
+              </div>
+              </div>
+          </div>
+
+        </div>
+        <div id="loader"></div>
             <!-- Success -->
             <div class="alert alert-success" id="success-alert">
-                <strong>Success! </strong>
-                Product have added to your wishlist.
+                <strong>Success!</strong>
+                Product have added to your cart.
             </div>
-        </div>
+            <!-- Error -->
+            <div class="alert alert-failure" id="failure-alert">
+            </div>
+            <script>
+                $("#success-alert").hide();
+                $("#failure-alert").hide();
+            </script>
     </body>
     <script src="vendor/app.js"></script>
 </html>
