@@ -1,7 +1,7 @@
 # Arr Aye Tea app
-(WIP) A faux tea shop ecommerce 'app', similar to Starbucks and Dunkin Donuts. For an RIT augmented reality project
+(WIP) A faux tea shop ecommerce 'app', similar to Starbucks and Dunkin Donuts. For an RIT augmented reality project.
 
-*February 26, 2019*
+*April 17, 2019*
 
 Features:
 - JSON-loaded news and items
@@ -14,7 +14,7 @@ Features:
 - Order history
 - Basic QR code generation for cards
 - Fake login/logout system
-- Loading popup
+- Loading popup with optional callback function/params
 - Failure and success alerts
 
 ![Item selection screen](https://github.com/zbanack/arr-aye-tea-app/blob/master/promo/promo_1.png?raw=true)
@@ -22,4 +22,5 @@ Features:
 ![Card screen](https://github.com/zbanack/arr-aye-tea-app/blob/master/promo/promo_3.png?raw=true)
 ![Shopping cart scene](https://github.com/zbanack/arr-aye-tea-app/blob/master/promo/promo_4.png?raw=true)
 
+* Author [Zack Banack](https://www.zackbanack.com)
 Build on Bootstrap 4, FontAwesome, jQuery
