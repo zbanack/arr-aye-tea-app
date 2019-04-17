@@ -7,15 +7,25 @@
         <link rel="stylesheet" type="text/css" href="vendor/style.css">
         <link href="vendor/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <!--<script src="json/menu.js"></script>-->
+
         <script src="vendor/jquery.min.js"></script>
         <script src="vendor/bootstrap.bundle.min.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Leckerli+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Leckerli+One|Rubik" rel="stylesheet">
+
+        <script src="config/config.js"></script>
 
         <script>
-        let recent_item = [];
-        let cart_items = [];
-        let cards = [];
+            const API_URL = 'https://intranet.arrayetea.com/admin/api.php';
+            
+            let ORDER_HISTORY = [];
+            let CARDS = [];
+            let recent_item = [];
+            let cart_items = [];
+            let cards = [];
+
+            let fallback_news_image = "https://images.pexels.com/photos/97050/pexels-photo-97050.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
+
+            let news_tags_seek = ['tea', 'AAT', 'coffee', 'Mavrin'];
         </script>
     </head>
     <body>
@@ -24,13 +34,33 @@
             <!-- Sidebar -->
             <div class="bg-light border-right" id="sidebar-wrapper">
                 <div class="list-group list-group-flush">
-                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel1')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">AAT Go</a>
-                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel2')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Order History</a>
-                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel3')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #3</a>
-                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel4')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #4</a>
-                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel5')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #5</a>
-                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel6')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Panel #6</a>
-                    <a href="javascript:void(0);" onclick="loading_show(1000, logout);" class="tablinks list-group-item list-group-item-action bg-light menu-toggle">Sign Out</a>
+
+                    <script>
+                        if (GO_STORE_PHASE>0) {
+                            let div = `<a href="javascript:void(0);" onclick="openPage(event, 'page-panel1')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-asterisk subi"></i>AAT Go</a>`;
+                            $('#sidebar-wrapper').prepend(div);
+                        }
+                    </script>
+                    <!-- Order History -->
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel2')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-history subi"></i>Order History</a>
+
+                    <!-- Locations -->
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel3')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-map-pin subi"></i>Locations</a>
+
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel4')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-info subi"></i>Panel #4</a>
+
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel5')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-info subi"></i>Panel #5</a>
+
+                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel6')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-info subi"></i>Panel #6</a>
+
+                    <!-- About -->
+                    <a href="https://arrayetea.com/aboutus.php" class="tablinks list-group-item bg-light" target="_blank"><i class="fas fa-info subi"></i>About</a>
+
+                    <!-- Contact -->
+                    <a href="https://arrayetea.com/contact.php" class="tablinks list-group-item bg-light menu-toggle" target="_blank"><i class="fas fa-phone subi"></i>Contact</a>
+
+                    <!-- Sign Out -->
+                    <a href="javascript:void(0);" onclick="loading_show(1000, logout);" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-sign-out-alt subi"></i>Sign Out</a>
                 </div>
             </div>
 
@@ -49,7 +79,6 @@
                     <div class="container-fluid">
                         <div id="page-home" class="tabcontent defhide">
                             <h1 class="mt-4">News</h1>
-                            <hr/>
                             <div id="news-stories">
                             </div>
                         </div>
@@ -59,7 +88,6 @@
                     <div class="container-fluid">
                         <div id="page-shop" class="tabcontent">
                             <h1 class="mt-4">Specialty Brews</h1>
-                            <hr/>
                             <div id="menu-listing">
                             </div>
                         </div>
@@ -69,7 +97,6 @@
                     <div class="container-fluid">
                         <div id="page-cards" class="tabcontent defhide">
                             <h1 class="mt-4">Cards</h1>
-                            <hr />
 
                        <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-add-card', 'ico-home')">Add a Card</a>
                        <div id="my-cards"></div>
@@ -116,9 +143,13 @@
                     </div>
 
                     <!-- Page: Panel #3 -->
+                    <!--
+                        MAP GENERATED VIA: https://www.embedgooglemap.net/
+                    -->
                     <div class="container-fluid">
                         <div id="page-panel3" class="tabcontent defhide">
-                            <h1 class="mt-4">Panel 3</h1>
+                            <h1 class="mt-4">Locations</h1>
+<div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=rochester&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div><style>.mapouter{position:relative;text-align:right;height:320px;width:100%;}.gmap_canvas {overflow:hidden;background:none!important;height:320px;width:100%;}</style></div>
                         </div>
                     </div>
 
@@ -170,6 +201,7 @@
                 </div>
             </div>
         </div>
+        
         <div id="landing">
 
             <!-- Login -->
@@ -189,6 +221,7 @@
                 <div class="footer-div"><a href="javascript:void(0);" onclick="openPage(event, 'page-create-account', '-1');" style="color:white!important;">Create Account</a></div>
               </div>
           </div>
+      </div>
 
           <!-- Forgot Password -->
             <div class="container-fluid">
@@ -225,5 +258,8 @@
                 $("#failure-alert").hide();
             </script>
     </body>
+   <!--<div id="landing-cover"></div>-->
+
     <script src="vendor/app.js"></script>
+
 </html>

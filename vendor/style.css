@@ -1,5 +1,8 @@
 :root {
   --app-max-width: 640px;
+  --app-quarter-width: calc(var(--app-max-width)*0.25);
+  --app-half-width: calc(var(--app-max-width)*0.5);
+  --app-three-fourths-width: calc(var(--app-max-width)*0.75);
 }
 
 .nav {
@@ -68,8 +71,10 @@ body {
 }
 
 .card-img-top {
-    width: 100%;
-    height: 200px;
+  width: 100%;
+  height: 200px;
+  border-top-left-radius:10px !important;
+  border-top-right-radius:10px !important;
 
   background-position: center;
   background-repeat: no-repeat;
@@ -79,6 +84,8 @@ body {
 .card {
   margin-bottom:20px;
   box-shadow:0px 2px 8px rgba(0, 0, 0, 0.075);
+  border:0px !important;
+  border-radius:10px !important;
 }
 
 .add-to-cart {
@@ -86,7 +93,8 @@ body {
   font-size:12px !important;
   margin-left:30px !important;
   margin-top:8px !important;
-  width:150px !important;
+  width:80px !important;
+  color:#47ca4c;
 }
 
 .hollow {
@@ -118,9 +126,9 @@ body {
 }
 
 .nav-aat {
-  background-color:#F39C12 !important;
-  box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.05);
-  border-bottom:2px solid #F1C40F;
+  background-color:#ffa100 !important;
+  /*box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.05);
+  border-bottom:2px solid #F1C40F;*/
 }
 
 .brand {
@@ -131,7 +139,7 @@ body {
     display: block;
     font-size:28px;
     text-align:center;
-    text-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+    text-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .aat-card-sm {
@@ -272,6 +280,7 @@ body {
 
 .cart-item {
   width:100%;
+  width:var(--app-max-width);
 }
 
 #qr-table {
@@ -281,6 +290,12 @@ body {
 
 td, th {
   text-align: left;
+}
+
+.add-sub-wrap {
+  height:75px !important;
+  display:inline-block;
+  padding-bottom:22.5px;
 }
 
 .qrb {
@@ -296,7 +311,7 @@ td, th {
   text-align:center;
 }
 
-#landing {
+#landing, #landing-cover {
     opacity:1;
     background-color:white;
     position:fixed;
@@ -306,6 +321,11 @@ td, th {
     top:0px;
     left:0px;
     z-index:99999;
+}
+
+#landing-cover {
+  z-index:9999999;
+  background-color:white;
 }
 
 .spinner_wrapper {
@@ -421,6 +441,7 @@ td, th {
 .wide-button {
   width:100% !important;
   opacity:0.9;
+  background-color:#ffa100;
 }
 
 .forgot-password {
@@ -439,6 +460,43 @@ td, th {
   height: 40px;
   line-height:40px;
   text-align:center;
-  background-color:#126cf2;
+  background-color:#47ca4c;
   color:white;
+}
+
+.empty-cart {
+  text-align:center;
+  padding:0;
+  width:100%;
+  max-width:var(--app-max-width);
+  margin-top:128px;
+  position:absolute;
+}
+
+.circ {
+  border:0;
+  width:30px;
+  height:30px;
+}
+
+.mt-4 {
+  font-family: 'Rubik';
+  font-weight:600;
+  font-size:30px;
+  margin-bottom:20px;
+  border-left:8px solid #ffa100;
+  padding-left:16px;
+}
+
+.subi {
+  color: #fc9463;
+  margin-right:8px;
+  display:inline-block;
+  width:30px;
+  text-align:center;
+}
+
+#menu-listing {
+  width:100%;
+  max-width:var(--app-half-width);
 }
