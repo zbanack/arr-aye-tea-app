@@ -6,26 +6,34 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="vendor/style.css">
         <link href="vendor/bootstrap.min.css" rel="stylesheet">
+        <meta name="description" content="The official app of Arr Aye Tea. Order delicious, international tea brews right from your phone.">
+
+        <!-- jQuery -->
+        <script src="vendor/jquery.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="vendor/bootstrap.bundle.min.js"></script>
+
+        <!-- Dependencies -->
+        <!-- Leckerli One, Rubik Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Leckerli+One|Rubik" rel="stylesheet">
+        <!-- FontAwesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-        <script src="vendor/jquery.min.js"></script>
-        <script src="vendor/bootstrap.bundle.min.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Leckerli+One|Rubik" rel="stylesheet">
-
+        <!-- Configure file -->
         <script src="config/config.js"></script>
 
         <script>
+            /**
+             * Declare application constants
+             */
+            // Link to the API
             const API_URL = 'https://intranet.arrayetea.com/admin/api.php';
-            
-            let ORDER_HISTORY = [];
-            let CARDS = [];
-            let recent_item = [];
-            let cart_items = [];
-            let cards = [];
 
-            let fallback_news_image = "https://images.pexels.com/photos/97050/pexels-photo-97050.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
+            // If no news image is provided, default to this one
+            const NEWS_IMAGE_DEFAULT = "https://images.pexels.com/photos/97050/pexels-photo-97050.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
 
-            let news_tags_seek = ['tea', 'AAT', 'coffee', 'Mavrin'];
+            // Pull news stories only containing the following words
+            const NEWS_TAG_KEYWORDS = ['tea', 'AAT', 'coffee', 'Mavrin', 'Dunkin', 'Starbucks'];
         </script>
     </head>
     <body>
@@ -41,6 +49,7 @@
                             $('#sidebar-wrapper').prepend(div);
                         }
                     </script>
+
                     <!-- Order History -->
                     <a href="javascript:void(0);" onclick="openPage(event, 'page-panel2')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-history subi"></i>Order History</a>
 

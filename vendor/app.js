@@ -1,4 +1,13 @@
 /**
+ * Storables
+ */
+let ORDER_HISTORY = [];
+let CARDS = [];
+let recent_item = [];
+let cart_items = [];
+let cards = [];
+
+/**
  * Side panel toggling
  */
 $(".menu-toggle").click(function(e) {
@@ -315,9 +324,18 @@ function app_has_loaded(pulled_data) {
     loading_hide();
 }
 
+/**
+ * Populate the news stories and menu items
+ */
 function init_popul(pulled_data) {
+
+    // assign API return data to NEWS_STORIES for further parsing
     NEWS_STORIES = JSON.parse(pulled_data);
+
+    // iterate over all menu items
     for (let i = 0; i < MENU_ITEMS.length; i++) {
+
+        // skip over if the menu item isn't available (for example, seasonal item)
         if (!MENU_ITEMS[i].available) continue;
         let div = `<div class="card" style="width: 100%;">
   <div class="card-img-top" style="background-image: url('${MENU_ITEMS[i].image}')"></div>
@@ -329,6 +347,7 @@ function init_popul(pulled_data) {
       <div class="btn-group btn-group-toggle" data-toggle="buttons">`
 
 
+      // iterate over all variations (tabs) for the specific menu item
         for (let j = 0; j < MENU_ITEMS[i].tabs.length; j++) {
             div += `
         <label class="hollow btn btn-secondary${j === 0 ? ' active' : ''}">
@@ -337,44 +356,59 @@ function init_popul(pulled_data) {
             `;
         }
 
+        // close div, default Add to Cart button
         div += `</div>
 
         <a href="javascript:;" class="MID${i} badge badge-pill badge-success add-to-cart">+ $${MENU_ITEMS[i].prices[0]}</a>
     </div>
   </div>
 </div>`;
+
+    // append menu item to div
         $('#menu-listing').append(div);
     }
 
-    // news stories
+    // iterate over the news stories
     for (let i = 0; i < NEWS_STORIES.length; i++) {
         let inside = false;
         let matches_tags = [];
         let fallback_source = 'Article';
         let __str = NEWS_STORIES[i].title.toLowerCase();
         let source = NEWS_STORIES[i].fromID || '';
+
+        // if the news stories contains a source
         if (source == undefined || source == null 
         || typeof source == typeof undefined) source = '';
             if (source.length<3) source = fallback_source;
-        for(var j = 0; j < news_tags_seek.length; j++) {
+
+        // scan for keywords
+        for(var j = 0; j < NEWS_TAG_KEYWORDS.length; j++) {
             
-            let seek = news_tags_seek[j].toLowerCase();
+            // basic checkin for word, lowercase
+            let seek = NEWS_TAG_KEYWORDS[j].toLowerCase();
+
+            // found keyword
             if (__str.indexOf(seek)>-1) {
                 inside = true;
-                matches_tags.push(news_tags_seek[j]);
+                matches_tags.push(NEWS_TAG_KEYWORDS[j]);
             }
         }
 
+        // if we should load the news story
         if (inside) {
             let splitter = NEWS_STORIES[i].content.trunc(140);
             let categs = ``;
-            let __img = NEWS_STORIES[i].image || '';
+            let __img = NEWS_STORIES[i].attach || '';
 
-            if ((__img.length) < 5) __img = fallback_news_image;
+            // check if the story has an associated ("attach") image
+            if ((__img.length) < 5) __img = NEWS_IMAGE_DEFAULT;
 
+            // list out the matched tags
             for (var j = 0; j < matches_tags.length; j++) {
                 categs += `<span class="badge badge-light badge-light">${matches_tags[j]}</span>&nbsp;`;
             }
+
+            // create the news card
             let div = `<div class="card" style="width: 100%; background: linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.8)), url('${__img}') no-repeat fixed;background-size: cover;">
       <div class="card-body news-body">
 
@@ -398,15 +432,18 @@ function init_popul(pulled_data) {
 
       </div>
     </div>`;
+
+        // add the news card to the view
             $('#news-stories').append(div);
         }
     }
 
-    // cards
+    // render the credit cards
     render_cards();
 
     let div = '';
-    // card selection
+
+    // load in the credit cards faces, if available
     for (let i = 0; i < CARD_STYLES.length; i++) {
         if (CARD_STYLES[i].available !== true) continue;
         div += `<label class="aat-card-sm card-style-selection btn btn-secondary${i === 0 ? ' active' : ''}" style="background-image:url('${card_get_image(i.toString())}') !important;">
@@ -417,39 +454,69 @@ function init_popul(pulled_data) {
     $('#card-selection').append(div);
 }
 
+/**
+ * Truncates a string with ('...') if length exceeds
+ */
 String.prototype.trunc = String.prototype.trunc ||
   function(n){
       return (this.length > n) ? this.substr(0, n-1) + '&hellip;' : this;
   };
 
+/**
+ * Renders a given credit card's associated information (QR code, balance)
+ * @param {real} i - index of card to render
+ */
 function render_card_view(i) {
+    // clear the card view
     $('#card-view').empty();
     let div = render_card(CARDS[i].style);
     $('#card-view').append(div);
+
+    // add the balance below the card
     div = `<p>${USD(CARDS[i].balance)}<br/>${CARDS[i].number}</p>`;
     $('#card-view').append(div);
+
+    // generate the associated card QR code
     gen_qr(i);
 }
 
+/**
+ * Renders a particular credit card image
+ * @param {string} img - The background image to draw in the card
+ */
 function render_card(img) {
     //$('#card-view').empty();
     return `<div class="aat-card" style="background-image:url('${card_get_image(img)}');"></div><div></div>`;
 }
 
+/**
+ * Displays all credit cards associated with the user in the view, using helper scripts to display individual components
+ */
 function render_cards() {
+    // empty div
     $('#my-cards').empty();
+
+    // iterate over the cards
     for (let i = 0; i < CARDS.length; i++) {
+
+        // render particular card
         let div = render_card(CARDS[i].style);
         let div_pre = `<a href="javascript:void(0);" class="tablinks" onclick="render_card_view(${i}); openPage(event, 'page-view-card', -1)">`;
         let div_post = `</a>`;
 
+        // add card to div
         $('#my-cards').append(div_pre + div + div_post);
     }
 }
-
+/**
+ * Get the particular image associated with the card
+ * @param {string} _str - The index of the card requesting the style
+ */
 function card_get_image(_sty) {
     let ret = '';
+    // iterate over all possible card styles
     for (let i = 0; i < CARD_STYLES.length; i++) {
+        // if style match, return particular image
         if (CARD_STYLES[i].id === _sty) {
             ret = CARD_STYLES[i].image;
             break;
@@ -458,11 +525,16 @@ function card_get_image(_sty) {
     return ret;
 }
 
+/**
+ * Creates a new credit card associated with the user
+ */
 function create_card() {
     let id = '';
+    // pull information from fields
     let balance = $('input[name=card-bal]').val();
     let style = $('input[name=card-style-radio]:checked').val();
 
+    // push the card to the stack
     CARDS.push({
         "id": id,
         "number": generate_card_number(),
@@ -470,9 +542,14 @@ function create_card() {
         "style": style
     });
 
-    console.log(CARDS);
+    //console.log(CARDS);
 }
 
+/**
+ * Pads out number with leading zeroes if length is less than 4
+ * @param {int} numb - Number to pad out
+ * @returns {string} str - String copy of padded input
+ */
 function pad_number(numb) {
     let str = numb.toString();
     while (str.length < 4) {
@@ -481,6 +558,11 @@ function pad_number(numb) {
     return str;
 }
 
+/**
+ * Cleans a card's string, rounding and removing spaces
+ * @param {string} numb - The credit card number as a string
+ * @returns {string} ret - A cleaned credit card string
+ */
 function card_to_int(numb) {
     let res = numb.replace(/\D/g, "");
     let ret = '';
@@ -504,23 +586,38 @@ function generate_card_number() {
     return numb;
 }
 
+/**
+ * Generates a fade "QR Code" for a given credit card
+ */
 function gen_qr(id) {
     // TODO, use card_to_int substring instead of > 0.5 to generate QR code
+
+
     let str = card_to_int(CARDS[id].number);
+
+    // empty the code container
     $('#qr-code').empty();
+
+    // create table of the given dimensions to house the code
     let qr_cols = 8;
     let qr_rows = 16;
     let div = `<table id="qr-table">`;
     let cnt = 0;
+
+    // iterate over the columns of the credit card
     for (let i = 0; i < qr_cols; i++) {
         div += `<tr>`;
+        // iterate over the rows of the credit card
         for (let j = 0; j < qr_rows; j++) {
+            // assign either black or white to a given cell
             let ch = ((Number(str.substring(cnt, cnt + 1)) / 10 > 0.5) || j == qr_rows - 2) ? 'qrb' : 'qrw';
             div += `<th class="${ch}"></th>`;
             cnt++;
         }
         div += `</tr>`;
     }
+
+    // finish off table, append to div
     div += `</table>`;
     $('#qr-code').append(div);
 }
@@ -575,6 +672,7 @@ function make_date() {
     };
     let today = new Date();
 
+    // follows English US formatting
     return today.toLocaleDateString("en-US", options);
 
 }
