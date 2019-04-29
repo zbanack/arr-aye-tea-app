@@ -6,7 +6,6 @@
  * 3 = ...
  * 4 = ...
  */
-const GO_STORE_PHASE = 0;
 
 /**
  * List of items accessible in the store
@@ -64,19 +63,19 @@ const MENU_ITEMS = [
  */
 const CARD_STYLES = [
 {
-	"id": 0,
+	"id": "0",
 	"available": true,
 	"image": "https://images.pexels.com/photos/1915401/pexels-photo-1915401.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
 },
 
 {
-	"id": 1,
+	"id": "1",
 	"available": true,
 	"image": "https://images.pexels.com/photos/1167021/pexels-photo-1167021.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
 },
 
 {
-	"id": 2,
+	"id": "2",
 	"available": true,
 	"image": "https://images.pexels.com/photos/1155577/pexels-photo-1155577.jpeg?cs=srgb&dl=daylight-environment-flow-1155577.jpg&fm=jpg"
 }
@@ -86,3 +85,10 @@ const CARD_STYLES = [
  * Tax rate, int
  */
 const TAX = 0.08;
+
+/**
+ * STORY; Password Reset
+ */
+var STORY_PASSWORD_RESET = 0;
+var STORY_LOGIN = 0;
+var STORY_GO_STORE = 0;

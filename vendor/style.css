@@ -498,5 +498,54 @@ td, th {
 
 #menu-listing {
   width:100%;
-  max-width:var(--app-half-width);
+  max-width:var(--app-max-width);
+  text-align:center;
 }
+
+.side-by-side {
+  /*display:inline-block !important;*/
+  float:center;
+  width:320px;
+}
+
+.checkout-btn {
+  font-size:18px;
+}
+
+.badge-pill {
+  background-color:#28a745 !important;
+}
+
+.mt-4 {
+  animation: fade-in-move-right 0.5s;
+}
+
+.motion {
+  animation: fade-in-move-up 0.5s;
+}
+
+.form-control-sm {
+  margin-bottom:8px !important;
+}
+@keyframes fade-in-move-up {
+  0% {
+    opacity: 0.5;
+    transform: translateY(1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-move-right {
+  0% {
+    opacity: 0.5;
+    transform: translateX(-1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+

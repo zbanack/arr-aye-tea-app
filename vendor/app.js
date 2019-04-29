@@ -99,11 +99,11 @@ function render_cart_items() {
         div = `<div id="subtotal">Subtotal: ${USD(sum)}<br />Tax (${(TAX * 100)}%): ${USD(TAX * sum)}Total: ${total_price}`;
 
         // checkout button
-        div += `<br/><div style="text-align:center"><a href="javascript:void(0);" class="badge badge-pill badge-primary" href="javascript:void(0);" onclick="loading_show(2000, checkout, '${total_price}');" style="padding:10px; margin-top:20px;">Checkout</a></div></div>`;
+        div += `<br/><div style="text-align:center"><a href="javascript:void(0);" class="badge badge-pill badge-primary checkout-btn" href="javascript:void(0);" onclick="loading_show(2000, checkout, '${total_price}');" style="padding:10px; margin-top:20px;">Checkout</a></div></div>`;
         $('#my-items').append(div);
     } else {
         // if the cart is empty, Call to Action button
-        div = `<div class="empty-cart"><h3><i class="fas fa-shopping-cart"></i></h3><br/>Your cart\'s empty!<br/><br/><a href="javascript:void(0);" class="badge badge-pill badge-primary" onclick="openPage(event, 'page-shop', 'ico-shop')" style="padding:10px;">Add something tasty</a></div>`;
+        div = `<div class="empty-cart motion"><h3><i class="fas fa-shopping-cart"></i></h3><br/>Your cart\'s empty!<br/><br/><a href="javascript:void(0);" class="badge badge-pill badge-primary" onclick="openPage(event, 'page-shop', 'ico-shop')" style="padding:10px;">Add something tasty</a></div>`;
         $('#my-items').append(div);
     }
 
@@ -191,7 +191,7 @@ function openPage(evt, pageName, btnName) {
     // $('.navbutton').css('opacity', '1').css('transform', 'translateY(0px)');
 
     // apply movement to button, if defined
-    if (btnName !== undefined) $('#' + btnName).css('opacity', '1').css('transform', 'translateY(-5px)');
+    //if (btnName !== undefined) $('#' + btnName).css('opacity', '1').css('transform', 'translateY(-5px)');
 }
 
 /**
@@ -337,7 +337,7 @@ function init_popul(pulled_data) {
 
         // skip over if the menu item isn't available (for example, seasonal item)
         if (!MENU_ITEMS[i].available) continue;
-        let div = `<div class="card" style="width: 100%;">
+        let div = `<div class="card side-by-side">
   <div class="card-img-top" style="background-image: url('${MENU_ITEMS[i].image}')"></div>
   <div class="card-body">
     <h5 class="card-title">${MENU_ITEMS[i].name}</h5>
@@ -424,8 +424,8 @@ function init_popul(pulled_data) {
           ${categs}
         </div>
         <div class="col">
-          <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <a href="${NEWS_STORIES[i].url}" class="MID${i} badge badge-pill badge-primary read-more">Read More &raquo;</a>
+          <div class="btn-group">
+            <a href="${NEWS_STORIES[i].url}" target="_blank" class="MID${i} badge badge-pill badge-primary read-more">Read More &raquo;</a>
         </div>
         </div>
       </div>
@@ -506,6 +506,15 @@ function render_cards() {
 
         // add card to div
         $('#my-cards').append(div_pre + div + div_post);
+    }
+
+    if (CARDS.length<1) {
+        let div = `<div class="empty-cart motion"><h3><i class="fas fa-credit-card"></i></h3><br/>Add a payment method to your account<br/><br/><a href="javascript:void(0);" class="badge badge-pill badge-primary" onclick="openPage(event, 'page-add-card', 'ico-shop')" style="padding:10px;">Design my card!</a></div>`;
+        $('#my-cards').append(div);
+    }
+    else {
+        let div = `<div class="d-flex"><a href="javascript:void(0);" class="btn-center badge badge-pill badge-primary" onclick="openPage(event, 'page-add-card', 'ico-shop')" style="padding:10px;">Add a card</a></div>`;
+        $('#my-cards').append(div);
     }
 }
 /**
@@ -658,6 +667,11 @@ function update_order_history() {
         let div = `<p>Date: ${ORDER_HISTORY[i].date}</p><p>Total Price: ${ORDER_HISTORY[i].total}</p><hr/>`;
         $('#order-history').append(div);
     }
+
+    if (ORDER_HISTORY.length < 1) {
+        let div = `<div class="empty-cart motion"><h3><i class="fas fa-receipt"></i></h3><br/>You haven't ordered anything yet. Let's change that!<br/><br/><a href="javascript:void(0);" class="badge badge-pill badge-primary" onclick="openPage(event, 'page-shop', 'ico-shop')" style="padding:10px;">Browse menu</a></div>`;
+        $('#order-history').append(div);
+    }
 }
 
 /**
@@ -781,4 +795,56 @@ function login() {
  */
 function logout() {
     location.reload();
+}
+
+function storyProgress(saga) {
+    let div = '';
+    let ID = '';
+    switch(saga) {
+        case('pw'):
+            ID = 'STORY-PASSWORD-RESET';
+            switch(STORY_PASSWORD_RESET) {
+                case(0):
+                div=`<p>Don't worry, it happens to everyone. Let's get your back in!</p>
+
+                <br />
+
+                <label for="reset-user">First, what's your username?</label>
+                <input type="text" class="form-control form-control-sm" id="card-first" placeholder="Username">
+
+                <label for="reset-email">Next, what email should we send reset intructions to?</label>
+                <input type="text" class="form-control form-control-sm" id="card-first" placeholder="Email address">`;
+
+                div+=resetPasswordButton();
+                div+=backButton();
+                break;
+                case(1):
+                div=`<p>Password resetting is currently unavailable. We're deeply sorry for any inconvenience this may cause.</p>`;
+                div+=backButton();
+                break;
+            }
+        break;
+        case('login'):
+            ID = 'STORY-LOGIN';
+            switch(STORY_LOGIN) {
+                case(0):
+                    div=`App login is currently unavailable`;
+                break;
+                case(1):
+                    div=`<a href="javascript:void(0);" class="btn btn-primary mb-2 bora wide-button" onclick="login();">Log In</a>`;
+                break;
+            }
+        break;
+    }
+
+    $('#'+ID).empty();
+    $('#'+ID).append(div);
+}
+
+function resetPasswordButton() {
+    return `<a href="javascript:void(0);" class="badge badge-pill badge-primary" onclick="openPage(event, 'page-login', 'ico-shop')" style="padding:10px;">Send reset instructions</a>`;
+}
+
+function backButton() {
+    return `<a href="javascript:void(0);" class="badge badge-pill badge-primary" onclick="openPage(event, 'page-login', 'ico-shop')" style="padding:10px;">Back</a>`;
 }

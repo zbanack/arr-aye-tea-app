@@ -19,10 +19,21 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-        <!-- Configure file -->
-        <script src="config/config.js"></script>
-
         <script>
+            function getUrlVars() {
+                var vars = {};
+                var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                    vars[key] = value;
+                });
+                return vars;
+            }
+            function getUrlParam(parameter, defaultvalue){
+                var urlparameter = defaultvalue;
+                if(window.location.href.indexOf(parameter) > -1){
+                    urlparameter = getUrlVars()[parameter];
+                    }
+                return urlparameter;
+            }
             /**
              * Declare application constants
              */
@@ -33,8 +44,11 @@
             const NEWS_IMAGE_DEFAULT = "https://images.pexels.com/photos/97050/pexels-photo-97050.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
 
             // Pull news stories only containing the following words
-            const NEWS_TAG_KEYWORDS = ['tea', 'AAT', 'coffee', 'Mavrin', 'Dunkin', 'Starbucks'];
+            const NEWS_TAG_KEYWORDS = [' tea.', ' tea ', ' AAT ', 'coffee', 'Mavrin', 'Dunkin', 'Starbucks'];
         </script>
+
+        <!-- Configure file -->
+        <script src="config/config.js"></script>
     </head>
     <body>
         <div class="d-flex" id="wrapper">
@@ -43,15 +57,8 @@
             <div class="bg-light border-right" id="sidebar-wrapper">
                 <div class="list-group list-group-flush">
 
-                    <script>
-                        if (GO_STORE_PHASE>0) {
-                            let div = `<a href="javascript:void(0);" onclick="openPage(event, 'page-panel1')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-asterisk subi"></i>AAT Go</a>`;
-                            $('#sidebar-wrapper').prepend(div);
-                        }
-                    </script>
-
                     <!-- Order History -->
-                    <a href="javascript:void(0);" onclick="openPage(event, 'page-panel2')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-history subi"></i>Order History</a>
+                    <a href="javascript:void(0);" onclick="update_order_history(); openPage(event, 'page-panel2')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-history subi"></i>Order History</a>
 
                     <!-- Locations -->
                     <a href="javascript:void(0);" onclick="openPage(event, 'page-panel3')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-map-pin subi"></i>Locations</a>
@@ -88,7 +95,7 @@
                     <div class="container-fluid">
                         <div id="page-home" class="tabcontent defhide">
                             <h1 class="mt-4">News</h1>
-                            <div id="news-stories">
+                            <div id="news-stories" class="motion">
                             </div>
                         </div>
                     </div>
@@ -97,7 +104,7 @@
                     <div class="container-fluid">
                         <div id="page-shop" class="tabcontent">
                             <h1 class="mt-4">Specialty Brews</h1>
-                            <div id="menu-listing">
+                            <div id="menu-listing" class="motion">
                             </div>
                         </div>
                     </div>
@@ -107,7 +114,6 @@
                         <div id="page-cards" class="tabcontent defhide">
                             <h1 class="mt-4">Cards</h1>
 
-                       <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-add-card', 'ico-home')">Add a Card</a>
                        <div id="my-cards"></div>
                         </div>
                     </div>
@@ -123,13 +129,32 @@
                     <!-- Page: Add a Cart -->
                     <div class="container-fluid">
                         <div id="page-add-card" class="tabcontent defhide">
-                            <h1 class="mt-4">Add a Card</h1>
-                                <input type="text" name="card-bal" placeholder="Balance"><br/>
+                            <h1 class="mt-4">Create a Card</h1>
+                                <label for="card-first">Your Details</label>
+                                <input type="text" class="form-control form-control-sm" id="card-first" placeholder="First name">
+                                <input type="text"  class="form-control form-control-sm" id="card-last" placeholder="Last name">
+                                <input type="text"  class="form-control form-control-sm" id="card-address" placeholder="Address">
+                                <input type="text"  class="form-control form-control-sm" id="card-city" placeholder="City">
+                                <input type="text"  class="form-control form-control-sm" id="card-state" placeholder="State">
+                                <br/><label for="card-card">Payment</label>
+                                <input type="text"  class="form-control form-control-sm" id="card-card" placeholder="Card">
+                                <input type="text"  class="form-control form-control-sm" id="card-ccv" placeholder="CCV">
+                                <input type="text"  class="form-control form-control-sm" id="card-bal" placeholder="Add Balance">
+
+                                <h2 class="mt-4">Make it unique</h2>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                     <div id="card-selection"></div>
                                 </div>
                                 <br/>
-                                <a href="javascript:void(0);" class="tablinks" onclick="create_card(); openPage(event, 'page-cards', 'ico-cards'); render_cards();">Create Card</a>
+                                <div style="height:20px;">&nbsp;</div>
+                              <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+
+                                <label class="form-check-label" for="exampleCheck1">By adding a payment method you agree to our terms of service</label>
+                              </div>
+                              <div style="height:50px;">&nbsp;</div>
+                                <a href="javascript:void(0);" class="btn btn-primary mb-2" onclick="create_card(); openPage(event, 'page-cards', 'ico-cards'); render_cards();">Create Card</a>
+                                <div style="height:200px;">&nbsp;</div>
                         </div>
                     </div>
                     
@@ -158,6 +183,7 @@
                     <div class="container-fluid">
                         <div id="page-panel3" class="tabcontent defhide">
                             <h1 class="mt-4">Locations</h1>
+                            <p>In our goal to be accessible as possible, we're opening new locations soon!</p>
 <div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=rochester&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div><style>.mapouter{position:relative;text-align:right;height:320px;width:100%;}.gmap_canvas {overflow:hidden;background:none!important;height:320px;width:100%;}</style></div>
                         </div>
                     </div>
@@ -212,33 +238,30 @@
         </div>
         
         <div id="landing">
-
             <!-- Login -->
             <div class="container-fluid">
                 <div id="page-login" class="tabcontent">
                 
-                <div class="center-div">
+                <div class="center-div motion">
                     <div id="landing-logo"><i class="fas fa-leaf"></i></div>
                   <input type="email" class="form-control no-bottom-curve" id="inputEmail" placeholder="Username" value="admin">
                   <input type="password" class="form-control no-top-curve" id="inputPassword" placeholder="Password" style="margin-top:-1px !important;" value="123">
                           
                           <br />
-                  <a href="javascript:void(0);" class="btn btn-primary mb-2 bora wide-button" onclick="login();">Log In</a>
+                <div id="STORY-LOGIN"></div>
                   <br /><br /><br />
-                  <a href="javascript:void(0);" class="tablinks forgot-password" onclick="openPage(event, 'page-forgot', '-1')">Forgot password?</a>
+                  <a href="javascript:void(0);" class="tablinks forgot-password" onclick="storyProgress('pw'); openPage(event, 'page-forgot', '-1')">Forgot password?</a>
               </div>
                 <div class="footer-div"><a href="javascript:void(0);" onclick="openPage(event, 'page-create-account', '-1');" style="color:white!important;">Create Account</a></div>
               </div>
           </div>
-      </div>
+      
 
           <!-- Forgot Password -->
             <div class="container-fluid">
                 <div id="page-forgot" class="tabcontent defhide">
-                <h2>Forgot Password</h2>
-                <div class="center-div">
-                  <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-login', '-1')">Back</a>
-              </div>
+                <h1 class="mt-4">Forgot your password</h1>
+                <div id="STORY-PASSWORD-RESET"></div>
               </div>
           </div>
 
@@ -247,11 +270,13 @@
                 <div id="page-create-account" class="tabcontent defhide">
                 <h2>Create Account</h2>
                 <div class="center-div">
-                  <a href="javascript:void(0);" class="tablinks" onclick="openPage(event, 'page-login', '-1')">Back</a>
+
+</div>
               </div>
               </div>
           </div>
 
+        </div>
         </div>
         <div id="loader"></div>
             <!-- Success -->
@@ -271,4 +296,15 @@
 
     <script src="vendor/app.js"></script>
 
+    <script>
+        STORY_PASSWORD_RESET = Math.max(parseInt(getUrlParam('reset', "-1")), STORY_PASSWORD_RESET);
+        STORY_LOGIN = Math.max(parseInt(getUrlParam('login', "-1")), STORY_LOGIN);
+        STORY_GO_STORE = Math.max(parseInt(getUrlParam('go', "-1")), STORY_GO_STORE);
+        storyProgress('login');
+
+        if (STORY_GO_STORE>0) {
+            let div = `<a href="javascript:void(0);" onclick="openPage(event, 'page-panel1')" class="tablinks list-group-item list-group-item-action bg-light menu-toggle"><i class="fas fa-asterisk subi"></i>AAT Go</a>`;
+            $('#sidebar-wrapper').prepend(div);
+        }
+    </script>
 </html>
