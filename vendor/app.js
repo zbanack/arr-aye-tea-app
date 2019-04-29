@@ -99,7 +99,7 @@ function render_cart_items() {
         div = `<div id="subtotal">Subtotal: ${USD(sum)}<br />Tax (${(TAX * 100)}%): ${USD(TAX * sum)}Total: ${total_price}`;
 
         // checkout button
-        div += `<br/><div style="text-align:center"><a href="javascript:void(0);" class="badge badge-pill badge-primary checkout-btn" href="javascript:void(0);" onclick="loading_show(2000, checkout, '${total_price}');" style="padding:10px; margin-top:20px;">Checkout</a></div></div>`;
+        div += `<br/><div style="text-align:center"><a href="javascript:void(0);" class="badge badge-pill badge-primary checkout-btn" href="javascript:void(0);" onclick="loading_show(2000, checkout, '${total_price}');" style="padding:10px; margin-top:20px; margin-bottom:40px;">Checkout</a></div></div>`;
         $('#my-items').append(div);
     } else {
         // if the cart is empty, Call to Action button
@@ -828,7 +828,7 @@ function storyProgress(saga) {
             ID = 'STORY-LOGIN';
             switch(STORY_LOGIN) {
                 case(0):
-                    div=`App login is currently unavailable`;
+                    div=`App login is currently unavailable<br/>(add '?login=1' param to url)`;
                 break;
                 case(1):
                     div=`<a href="javascript:void(0);" class="btn btn-primary mb-2 bora wide-button" onclick="login();">Log In</a>`;

@@ -499,13 +499,12 @@ td, th {
 #menu-listing {
   width:100%;
   max-width:var(--app-max-width);
-  text-align:center;
 }
 
 .side-by-side {
-  /*display:inline-block !important;*/
+  /*display:inline-block !important;
   float:center;
-  width:320px;
+  width:320px;*/
 }
 
 .checkout-btn {
